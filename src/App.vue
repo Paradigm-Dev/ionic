@@ -3,8 +3,8 @@
     <ion-split-pane content-id="main-content">
       <ion-menu content-id="main-content" type="overlay" v-if="get('user')">
         <ion-header>
-          <ion-toolbar>
-            <ion-title>aliddy</ion-title>
+          <ion-toolbar color="primary">
+            <ion-title>Apps</ion-title>
           </ion-toolbar>
         </ion-header>
         <ion-content>
@@ -37,11 +37,12 @@
 
       <ion-page id="main-content">
         <ion-header>
-          <ion-toolbar v-if="get('user')">
+          <ion-toolbar v-if="get('user')" color="primary">
             <ion-buttons slot="start">
               <ion-menu-button></ion-menu-button>
             </ion-buttons>
-            <ion-title>Paradigm</ion-title>
+            <ion-title v-if="!isPlatform('capacitor')"> Paradigm </ion-title>
+            <ion-title v-else>{{ route.name }}</ion-title>
           </ion-toolbar>
         </ion-header>
 
@@ -71,6 +72,7 @@ import {
   IonToolbar,
   IonHeader,
   IonPage,
+  isPlatform,
 } from "@ionic/vue";
 import { defineComponent, ref } from "vue";
 import { useRoute } from "vue-router";
@@ -135,8 +137,8 @@ export default defineComponent({
       selectedIndex,
       appPages,
       get,
-      // homeOutline,
-      // homeSharp,
+      isPlatform,
+      route,
       isSelected: (url: string) => (url === route.path ? "selected" : ""),
     };
   },
@@ -167,11 +169,11 @@ ion-menu.md ion-item {
 }
 
 ion-menu.md ion-item.selected {
-  --background: rgba(var(--ion-color-primary-rgb), 0.14);
+  --background: rgba(66, 140, 255, 0.14);
 }
 
 ion-menu.md ion-item.selected ion-icon {
-  color: var(--ion-color-primary);
+  color: #428cff;
 }
 
 ion-menu.md ion-item ion-icon {
@@ -197,7 +199,7 @@ ion-menu.ios ion-item {
 }
 
 ion-menu.ios ion-item.selected ion-icon {
-  color: var(--ion-color-primary);
+  color: #428cff;
 }
 
 ion-menu.ios ion-item ion-icon {
@@ -207,7 +209,7 @@ ion-menu.ios ion-item ion-icon {
 
 ion-menu.ios,
 ion-item.selected {
-  --color: var(--ion-color-primary);
+  --color: #428cff;
 }
 
 ion-menu {
