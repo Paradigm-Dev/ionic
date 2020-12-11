@@ -1,9 +1,7 @@
 <template>
   <IonApp>
-    <ion-header :translucent="true"> </ion-header>
-
     <ion-split-pane content-id="main-content">
-      <ion-menu content-id="main-content" type="overlay">
+      <ion-menu content-id="main-content" type="overlay" v-if="get('user')">
         <ion-header>
           <ion-toolbar>
             <ion-title>aliddy</ion-title>
@@ -37,16 +35,20 @@
         </ion-content>
       </ion-menu>
 
-      <ion-content id="main-content">
-        <ion-toolbar>
-          <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
-          </ion-buttons>
-          <ion-title>Paradigm</ion-title>
-        </ion-toolbar>
+      <ion-page id="main-content">
+        <ion-header>
+          <ion-toolbar v-if="get('user')">
+            <ion-buttons slot="start">
+              <ion-menu-button></ion-menu-button>
+            </ion-buttons>
+            <ion-title>Paradigm</ion-title>
+          </ion-toolbar>
+        </ion-header>
 
-        <ion-router-outlet></ion-router-outlet
-      ></ion-content>
+        <ion-content>
+          <ion-router-outlet></ion-router-outlet>
+        </ion-content>
+      </ion-page>
     </ion-split-pane>
   </IonApp>
 </template>
@@ -68,6 +70,7 @@ import {
   IonButtons,
   IonToolbar,
   IonHeader,
+  IonPage,
 } from "@ionic/vue";
 import { defineComponent, ref } from "vue";
 import { useRoute } from "vue-router";
@@ -78,7 +81,7 @@ import {
   chatboxSharp,
 } from "ionicons/icons";
 import { get } from "./data";
-import { initializeSocketEventHandlers } from "./socket";
+// import { initializeSocketEventHandlers } from "./socket";
 
 export default defineComponent({
   name: "App",
@@ -98,6 +101,7 @@ export default defineComponent({
     IonTitle,
     IonToolbar,
     IonHeader,
+    IonPage,
   },
   setup() {
     const selectedIndex = ref(0);
@@ -125,18 +129,16 @@ export default defineComponent({
 
     const route = useRoute();
 
-    console.log(get("config"));
+    // initializeSocketEventHandlers();
 
     return {
       selectedIndex,
       appPages,
+      get,
       // homeOutline,
       // homeSharp,
       isSelected: (url: string) => (url === route.path ? "selected" : ""),
     };
-  },
-  created() {
-    initializeSocketEventHandlers();
   },
 });
 </script>
@@ -200,7 +202,7 @@ ion-menu.ios ion-item.selected ion-icon {
 
 ion-menu.ios ion-item ion-icon {
   font-size: 24px;
-  color: #73849a;
+  /* color: #73849a; */
 }
 
 ion-menu.ios,

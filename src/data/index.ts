@@ -5,16 +5,14 @@ import { Notification } from "../models/Notification.interface";
 import { Socket } from "socket.io-client";
 
 export interface State {
-  router: string;
   config: false | Config;
   user: false | User;
-  socket: false | Socket;
+  socket: false | typeof Socket;
   ip: string;
   notification: false | Notification;
 }
 
 const state = ref<State>({
-  router: "Landing",
   user: false,
   config: false,
   socket: false,
@@ -25,7 +23,6 @@ const state = ref<State>({
 export type StateValues = keyof State;
 
 export function get(property: StateValues) {
-  console.log(property, typeof state.value[property], state.value[property]);
   return computed((): any => state.value[property]).value;
 }
 
